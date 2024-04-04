@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>typeme</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC&display=swap" rel="stylesheet" />
+        <style>
+            #target::after {
+                content: "|";
+                -webkit-animation: blink 1s infinite step-start;
+                animation: blink 1s infinite step-start;
+                color: gray;
+            }
+
+            @-webkit-keyframes blink {
+                50% {
+                    opacity: 0;
+                }
+            }
+
+            @keyframes blink {
+                50% {
+                    opacity: 0;
+                }
+            }
+
+            .noto-sans {
+                font-family: "Noto Sans SC", sans-serif;
+                font-optical-sizing: auto;
+                font-weight: 400;
+                font-style: normal;
+            }
+
+            body {
+                margin: 0;
+                height: 100vh;
+                display: grid;
+                place-items: center;
+            }
+        </style>
+    </head>
+    <body>
+        <h1 id="target" class="noto-sans">Hello</h1>
+    </body>
+    <script type="module">
+        import withNode from "./dist/index.mjs";
+        window.withNode = withNode;
+
+        const stop = withNode(document.querySelect("#target"))
+            .wait(500)
+            .text("Hello...")
+            .wait(1000)
+            .text("Hello, world!")
+            .wait(500)
+            .text("你好，世界！")
+            .repeat()
+            .start();
+    </script>
+</html>
