@@ -4,25 +4,24 @@ interface Chain {
     text: (text: string) => Chain;
     wait: (ms: number) => Chain;
     /**
-     * @param [n=Infinity] by default `Infinity`
-     */
-    repeat: (n?: number) => Chain;
-    /**
      * await for any callback
      */
     then: (callback: () => unknown | Promise<unknown>) => Chain;
     /**
-     * start type effect, returns a function to stop
+     * start type effect by `n` time(s), returns a function to stop
+     *
+     * @param n by default `1`, set to `Infinity` to loop forever
      */
-    start: () => VoidFunction;
+    start: (n?: number) => VoidFunction;
 }
 
-export default function withNode(node: Node) {
+export function withNode(node: Node) {
     const ops: Array<() => unknown | Promise<unknown>> = [];
     let isStopped = false;
     let repeatTimes = 1;
 
-    const start = () => {
+    const start = (n = 1) => {
+        repeatTimes = n;
         requestAnimationFrame(async () => {
             const loop = async () => {
                 if (--repeatTimes < 0) return;
@@ -52,14 +51,12 @@ export default function withNode(node: Node) {
             ops.push(callback);
             return chain;
         },
-        repeat: (n = Infinity) => {
-            repeatTimes = n;
-            return chain;
-        },
         start,
     };
     return chain;
 }
+
+export { withNode as default };
 
 /**
  * Based on camwiegert's [typical](https://github.com/camwiegert/typical) library
