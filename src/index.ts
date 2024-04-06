@@ -20,20 +20,22 @@ export const sleep = (ms: number) => new Promise<void>((resolve) => setTimeout(r
 export function withNode(node: NodeLike) {
     const ops: Array<() => unknown | Promise<unknown>> = [];
     let isStopped = false;
-    let repeatTimes = 1;
 
     const start = (n = 1) => {
-        repeatTimes = n;
+        if (isStopped) throw new Error("Cannot start as it's already stopped!");
+        let repeatTimes = n;
         requestAnimationFrame(async () => {
             const loop = async () => {
                 if (--repeatTimes < 0) return;
                 for (const op of ops) if (!isStopped) await op();
-                if (!isStopped) if (repeatTimes > 0) await loop();
+                if (!isStopped && repeatTimes > 0) await loop();
             };
             await loop();
         });
         const stop = () => {
             isStopped = true;
+            // GC everything
+            ops.splice(0, ops.length);
         };
         return stop;
     };

@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>typeme</title>
+        <title>typing-node</title>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC&display=swap" rel="stylesheet" />
@@ -13,12 +13,6 @@
                 -webkit-animation: blink 1s infinite step-start;
                 animation: blink 1s infinite step-start;
                 color: gray;
-            }
-
-            @-webkit-keyframes blink {
-                50% {
-                    opacity: 0;
-                }
             }
 
             @keyframes blink {
@@ -46,7 +40,7 @@
         <h1 id="target" class="noto-sans">Hello</h1>
     </body>
     <script type="module">
-        import withNode from "./dist/index.mjs";
+        import { withNode } from "./dist/index.mjs";
         window.withNode = withNode;
 
         const stop = withNode(document.querySelector("#target"))
