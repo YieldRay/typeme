@@ -1,4 +1,5 @@
 {
+    "name": "typing-node",
     "type": "module",
     "version": "0.1.0",
     "scripts": {

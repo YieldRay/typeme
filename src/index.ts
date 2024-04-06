@@ -1,4 +1,4 @@
-export const sleep = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms));
+type NodeLike = Pick<Node, "textContent">;
 
 interface Chain {
     text: (text: string) => Chain;
@@ -15,7 +15,9 @@ interface Chain {
     start: (n?: number) => VoidFunction;
 }
 
-export function withNode(node: Node) {
+export const sleep = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms));
+
+export function withNode(node: NodeLike) {
     const ops: Array<() => unknown | Promise<unknown>> = [];
     let isStopped = false;
     let repeatTimes = 1;
@@ -63,7 +65,7 @@ export { withNode as default };
  *
  * MIT LICENSE
  */
-export async function edit(node: Node, next: string, speed = 60) {
+export async function edit(node: NodeLike, next: string, speed = 60) {
     const curr = node.textContent || "";
     const overlap = getOverlap(curr, next);
 
